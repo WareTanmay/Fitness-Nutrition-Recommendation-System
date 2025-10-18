@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+        font-family: 'Roboto', sans-serif;
+        /* A semi-transparent black overlay over the background image */
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                    url("{{ url_for('static', filename='dark.jpg') }}") no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      
+    /* Floating Card Style */
+    .login-container {
+      background: #1e1e1e;
+      width: 360px;
+      padding: 40px 30px;
+      border-radius: 15px;
+      border: 2px solid #ff6600;
+      box-shadow: 
+        0 20px 30px rgba(0, 0, 0, 0.8),
+        inset 0 0 15px rgba(255, 102, 0, 0.4);
+      transform-style: preserve-3d;
+      animation: float 3s ease-in-out infinite;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    /* Floating keyframe animation */
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotateX(0deg) rotateY(0deg);
+      }
+      50% {
+        transform: translateY(-15px) rotateX(2deg) rotateY(2deg);
+      }
+      100% {
+        transform: translateY(0) rotateX(0deg) rotateY(0deg);
+      }
+    }
+    .login-container:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 
+        0 25px 35px rgba(0, 0, 0, 0.8),
+        inset 0 0 20px rgba(255, 102, 0, 0.6);
+    }
+    .login-container h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 500;
+      color: #ff6600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    /* Form Styles */
+    .login-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .login-container label {
+      margin-bottom: 5px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: #fff;
+      font-size: 1em;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+      transition: background-color 0.3s ease;
+    }
+    .login-container input[type="text"]:focus,
+    .login-container input[type="password"]:focus {
+      background-color: #333;
+      outline: none;
+    }
+    .login-container input[type="submit"] {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #ff6600, #e05500);
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    .login-container input[type="submit"]:hover {
+      background: linear-gradient(45deg, #e05500, #ff6600);
+      transform: translateY(-3px);
+    }
+    /* Message Styles */
+    .flash-message,
+    .error-message {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 0.9em;
+    }
+    .flash-message {
+      color: #00ff80;
+    }
+    .error-message {
+      color: #ff4d4d;
+    }
+    /* Link Styles */
+    p {
+      font-size: 0.9em;
+      text-align: center;
+    }
+    a {
+      color: #ff6600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #e05500;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p class="flash-message">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('login') }}" method="post">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      
+      <input type="submit" value="Login">
+    </form>
+    <p class="error-message">{{ msg }}</p>
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+  </div>
+</body>
+</html>
